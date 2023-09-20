@@ -61,6 +61,24 @@
 1. Google Oauth Authorization Code Flow (with PKCE) Diagram
    ![Oauth Flow - Backend](https://github.com/bkieselEducational/Oauth/assets/131717897/7346727c-59c3-4545-9638-f743db37d4d2)
 2. Terms
+  * PKCE: Proof Key for Code Exchange.
+  * Front-Channel: The Browser’s URL bar. An insecure method of sending requests.
+  * Back-Channel: The secure way to send requests (as they never touch the Browser). A Javascript example would be to send a request using the fetch() method! (to be truly secure, we need HTTPS)
+  * Nonce: Short for “Number used ONCE”. Commonly associated with cryptography, a nonce value is typically a random or semi-random number generated for one time use.
+  * SDK: Software Development Kit. A set of software tools and programs provided by hardware and software vendors that developers can use to build applications for specific platforms. SDKs help developers easily integrate their apps with a vendor’s services.
+3. Python Oauth SDK README.md link: https://github.com/googleapis/google-api-python-client/blob/main/docs/oauth.md
+4. Base64 URL Encode/Decode in Javascript: https://thewoods.blog/base64url/
+5. Base64 URL Encode Python: https://www.base64encoder.io/python/
+6. Sha256 Hashing in Python: https://docs.python.org/3/library/hashlib.html
+
+## Additional Notes:
+1. An interesting thing to consider about Oauth is that it is provided by an established organization. A name that people trust and are familiar with. It’s possible that you are working for a small startup and users may feel a little trepidation about pouring their personal information into your new app. Seeing that they are being authenticated by Google, Apple, Facebook, etc. may instill confidence in new users to an app!
+2. To add on to the note above, another nice benefit is that you can potentially only use ONE account to access all of your apps, instead of generating new credentials for each app you use, which is tedious and clunky!
+3. Note that if you REALLY want to explore the Oauth flow by writing your logic from scratch, there are some things you should be aware of. 1) If you want to use an established Oauth endpoint for your local testing, you will HAVE TO use Google!! Other vendors require you to register your application by providing a registered domain name amongst other requirements. The OTHER option, which I have not dabbled in, as of yet, would be to read through the official Oauth2 documents for creating your OWN Oauth API for YOUR app and test THAT out! If this second option interests you, my hat is off to you!!
+4. When using the recommended PKCE in an Oauth flow, this will require the generation of 2 random values and the setting of additional parameters in your requests.
+5. Keep in mind, that during your time at App Academy, we did not go in depth into security best practices. An obvious omission would be a lack of validating a user’s email. As you continue to develop as a web dev and continue to build your own projects, these practices are something you’ll want to explore further and implement yourself. To that end, note that Oauth validation ALSO takes care of validating the user’s email address!
+
+
 
 
 
