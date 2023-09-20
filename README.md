@@ -11,7 +11,7 @@
 ## Overview:
 
 1. **Google Cloud Console:**
-   * Crete an account.
+   * Create an account.
    * Create a Project.
    <img width="800" alt="oauth_landing" src="https://github.com/bkieselEducational/Oauth/assets/131717897/267da4eb-d2cc-4c0a-8d57-54b5d02defc0">
 
@@ -21,3 +21,6 @@
           * For User Type select “External” and click Create.
           * On the following screen, enter your App name, User support email (probably the same as your GCP email. Under Development contact information enter your email again)
       <img width="800" alt="consent" src="https://github.com/bkieselEducational/Oauth/assets/131717897/44e51676-cf0d-46bf-bdd9-9e5f40c4ea6d">
+       3. Under the settings for Oauth consent screen, Add a Test User. Click the button “+ ADD USERS” and then enter the email that you are using for your GCP account. <img width="800" alt="oauth_consent" src="https://github.com/bkieselEducational/Oauth/assets/131717897/8c5a9bba-dedb-4d50-b8f0-ab41a5ca16d6">
+       4. On the Credentials tab click the button “+CREATE CREDENTIALS” which will open a drop-down menu. 
+<img width="800" alt="to_credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/79e0da02-46bb-429d-8ff7-4bd13e238f0f">
