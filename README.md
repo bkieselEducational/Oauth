@@ -2,9 +2,6 @@
 
 # NOTE: This code is meant as an introductory reference ONLY!! (AKA: I'm not recommending this Python Package!)
 
-## Here's the Google Doc: https://docs.google.com/document/d/1SN5xTVa2iktNiTLO4-jcX1wCTCvtHu-O5vPdE4NQ_6o/edit
-
-
 # OAuth2 Authorization Code Flow with PKCE using Google OAuth
 
 ## Overview:
@@ -27,7 +24,7 @@
           * Enter the application type “Web application” and a name for your app. Additionally set the Redirect URI at the bottom of the page to your endpoint that will receive the code for exchange. In our case: http://localhost:5000/callback.
           * (Special Note) If you are initiating your OAuth flow from the frontend, you will need to alos set the "Authorized JavaScript origins"
 
-          <img width="800" alt="client_credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/87d7e1ea-9686-48ba-8b58-06ec6f735f0f"><br>  
+          &nbsp;&nbsp;<img width="800" alt="client_credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/87d7e1ea-9686-48ba-8b58-06ec6f735f0f"><br>  
           * After clicking create, save the client_id and the client_secret in a secure place (.env).
           <img width="509" alt="credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/2903d402-e50b-4bd6-a258-c43efde2c153">
 
