@@ -10,7 +10,14 @@
 
 ## Overview:
 
-1. Google Cloud Console:
+1. **Google Cloud Console:**
    * Crete an account.
    * Create a Project.
    <img width="800" alt="oauth_landing" src="https://github.com/bkieselEducational/Oauth/assets/131717897/267da4eb-d2cc-4c0a-8d57-54b5d02defc0">
+
+   * Register your app.
+       1. Click on APIs & Services ->
+       2. Click on OAuth consent screen ->
+          * For User Type select “External” and click Create.
+          * On the following screen, enter your App name, User support email (probably the same as your GCP email. Under Development contact information enter your email again)
+      <img width="800" alt="consent" src="https://github.com/bkieselEducational/Oauth/assets/131717897/44e51676-cf0d-46bf-bdd9-9e5f40c4ea6d">
