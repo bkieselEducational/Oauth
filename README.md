@@ -4,7 +4,6 @@
 
 ## Here's the Google Doc: https://docs.google.com/document/d/1SN5xTVa2iktNiTLO4-jcX1wCTCvtHu-O5vPdE4NQ_6o/edit
 
-![Oauth Flow - Backend](https://github.com/bkieselEducational/Oauth/assets/131717897/7346727c-59c3-4545-9638-f743db37d4d2)
 
 # OAuth2 Authorization Code Flow with PKCE using Google OAuth
 
@@ -53,8 +52,15 @@
       f. Lastly, we will verify that the “nonce” value that Google has sent back in our claims matches the one that we originally sent to initialize the flow.
    * Now that the Oauth process is complete, you must check to see if such a user exists in your db. If not, you’ll Sign Up that new user and Log them in, else just Log them in! NOTE: One of the nice Features of Oauth clients is that you DO NOT need to save a password for them in your db!! As I don’t allow NULL passwords, I just give such users the string “Oauth” as a password. This satisfies the condition that users must have a password, while ensuring that such users will not be affected by a data breach. The string “Oauth” will NOT hash to the string “Oauth”, so it CANNOT be used to login! Feel free to allow NULLABLE passwords in your app if that makes more sense to you.
 
-# Gotchas:
-1. 
+## Gotchas:
+1. Managing a website that uses more than one authentication method, in itself, can be tricky and complex. Don’t muddle the matter further by using different authorization schemes! What I mean by this is, if you allow regular users to login using an email password combination and then manage that session using a SESSION COOKIE, it would be advisable to ALSO set the Oauth access token in a SESSION COOKIE to handle those sessions. If you attempt to handle regular logins using a SESSION COOKIE and then setup validations for Oauth users using a different method, such as using the ‘Authorization: Bearer <Your Token Here>’ Header or a custom header of your design, you will end up with a VERY complicated session management setup on your backend and frontend alike. If this appeals to you, there isn’t any reason why you can’t do it, but it will require a lot of juggling, so BEWARE!!
+2. When refreshing a token, make sure to check and see if the response from the server contains a NEW refresh token! If so, make sure to save the new one with the user’s session!
+3. When testing ANY Oauth functionality locally make sure to use ‘http://localhost:PORT_NUMBER’ and NOT ‘http://127.0.0.1:PORT_NUMBER’ when typing the URL into your browser. If you don’t use ‘localhost’ it will break the Oauth functionality. Regretfully, I don’t know all of the science behind this issue , but it DOES have something to do with DNS. When you use the alias ‘localhost’, the browser will have to do a DNS resolution. With 127.0.0.1 it does not!! And it causes a problem to NOT do it. So do it!
+
+## Resources:
+1. Google Oauth Authorization Code Flow (with PKCE) Diagram
+   ![Oauth Flow - Backend](https://github.com/bkieselEducational/Oauth/assets/131717897/7346727c-59c3-4545-9638-f743db37d4d2)
+2. Terms
 
 
 
