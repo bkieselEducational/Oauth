@@ -29,7 +29,7 @@
           * (Special Note) If you are initiating your OAuth flow from the frontend, you will need to alos set the "Authorized JavaScript origins"
 
       <img width="800" alt="client_credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/87d7e1ea-9686-48ba-8b58-06ec6f735f0f"><br>  
-          * After clicking create, save the client_id and the client_secret in a secure place (.env), which in this case, is your client_secret.json file.
+          * After clicking create, save the client_id and the client_secret in a secure place (.env).
       <img width="509" alt="credentials" src="https://github.com/bkieselEducational/Oauth/assets/131717897/2903d402-e50b-4bd6-a258-c43efde2c153">
 
 2. **Your App:**
@@ -44,5 +44,17 @@
       5. grant_type: Should be set to ‘authorization_code’
       6. code_verifier: The base64URL encoded value that we saved after generating it as the “seed” for our code_challenge hash!
    * In the event that Google is able to verify the code_challenge (that we sent in initial request) by using the code_verifier AND the code that we are sending to the token endpoint IS valid, Google will send a response that contains our Authorization Token (and an ID Token, if requested).
+   * If you DID NOT request an ID Token, you can simply Login the user, and redirect them back to your app and use the Authorization Token to handle the session! (This user will NOT have an account created but can have access to certain features of your site. If you want to the user to have an account, and you probably should, then you’ll need to perform this as an additional step.) If you DID request an ID Token (which is in JWT format), you will need to perform some additional steps to validate it (SDK should handle this):
+      a. First you’ll need to validate the signature of the JWT by getting the keys from Google. Send a GET request to this Google endpoint to retrieve the keys: https://www.googleapis.com/oauth2/v3/certs
+      b. Note that once you have the keys, you’ll need to use the correct one to verify the JWT. There are usually 2. You can identify the correct one by matching it’s “kid” to the “kid” sent in the claims of the JWT. Use a package to validate the signature!
+      c. After validating the signature, we must still check a few more values. First we’ll verify the “iss” (Issuer) value in the claims to see that it in fact matches “https://accounts.google.com”
+      d. Next we will verify that the “aud” (Audience) value in the claim matches our client_id
+      e. Then we will get the current Epoch time and verify that it falls between the bounds listed in the claims as “iat” (Issued At Time) and the “exp” (Expiration)
+      f. Lastly, we will verify that the “nonce” value that Google has sent back in our claims matches the one that we originally sent to initialize the flow.
+   * Now that the Oauth process is complete, you must check to see if such a user exists in your db. If not, you’ll Sign Up that new user and Log them in, else just Log them in! NOTE: One of the nice Features of Oauth clients is that you DO NOT need to save a password for them in your db!! As I don’t allow NULL passwords, I just give such users the string “Oauth” as a password. This satisfies the condition that users must have a password, while ensuring that such users will not be affected by a data breach. The string “Oauth” will NOT hash to the string “Oauth”, so it CANNOT be used to login! Feel free to allow NULLABLE passwords in your app if that makes more sense to you.
+
+# Gotchas:
+1. 
+
 
 
