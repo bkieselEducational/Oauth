@@ -9,3 +9,8 @@
 # OAuth2 Authorization Code Flow with PKCE using Google OAuth
 
 ## Overview:
+
+1. Google Cloud Console:
+   a. Crete an account.
+   b. Create a Project.
+   <img width="600" alt="oauth_landing" src="https://github.com/bkieselEducational/Oauth/assets/131717897/267da4eb-d2cc-4c0a-8d57-54b5d02defc0">
