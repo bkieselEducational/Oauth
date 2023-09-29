@@ -75,7 +75,9 @@
 4. When using the recommended PKCE in an Oauth flow, this will require the generation of 2 random values and the setting of additional parameters in your requests.
 5. Keep in mind, that during your time at App Academy, we did not go in depth into security best practices. An obvious omission would be a lack of validating a user’s email. As you continue to develop as a web dev and continue to build your own projects, these practices are something you’ll want to explore further and implement yourself. To that end, note that Oauth validation ALSO takes care of validating the user’s email address!
 
-
+## Using OAuth in Production:
+1. To use OAuth in production, you'll need to add your production URL + callback endpoint path to your Google Credentials under the Redirect_URIs table. Ex: 'https://my_awesome_capstone.onrender.com/api/auth/oauth_callback'.
+2. Additionally, you'll want to refactor all of the concerned URLs in your code to use an ENV VARIABLE to resolve the BASE_URL instead of hardcoding these values.
 
 
 
