@@ -1,6 +1,6 @@
 # Oauth Walkthrough
 
-# NOTE: This code is meant as an introductory reference ONLY!! (AKA: I'm not recommending this Python Package!)
+# NOTE: This code is meant as an introductory reference ONLY!! (It's a simple demo. Follow the instructions at the bottom of this README to incorporate a Google Oauth flow into your project.)
 
 # OAuth2 Authorization Code Flow with PKCE using Google OAuth
 
@@ -78,6 +78,25 @@
 ## Using OAuth in Production:
 1. To use OAuth in production, you'll need to add your production URL + callback endpoint path to your Google Credentials under the Redirect_URIs table. Ex: 'https://my_awesome_capstone.onrender.com/api/auth/oauth_callback'.
 2. Additionally, you'll want to refactor all of the concerned URLs in your code to use an ENV VARIABLE to resolve the BASE_URL instead of hardcoding these values.
+
+## Incorporating Google Oauth into your Flask Application
+### After creating a project in the Google Cloud Platform Console and generating your credentials, follow these remaining steps:
+1. Replace your current 'requirements.txt' with the one provided in the repo. File name: new_requirements.txt OR simply copy and paste the additional packages listed at the bottom of that file into your current requirements.txt
+2. Choose a file that you will put the necessary Ouath endpoints into. If you are going to use your 'auth_routes.py', this is a completely acceptable decision! Either way, you must ensure that you have the required imports at the top of that file. These imports:
+```
+import os
+import pathlib
+
+import requests
+from flask import Flask, session, abort, redirect, request
+from google.oauth2 import id_token
+from google_auth_oauthlib.flow import Flow
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
+from tempfile import NamedTemporaryFile
+import json
+```
+
 
 
 
