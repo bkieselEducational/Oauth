@@ -208,8 +208,8 @@ def callback():
     return redirect(f"{BASE_URL}/") # This will send the final redirect to our user's browser. As depicted in Line 8 of the flow chart!
 ```
 5. After the endpoints are setup, our final step is to create a link on our frontend that will call the Oauth initiating endpoint! E viola!!
-Example:
+Example (Note that you will need to add the Google logo and style the link yourself!):
 ```
-
+  <a href={`${BASE_URL}/api/auth/login_oauth`}><button>OAUTH</button></a>
 ```
 
