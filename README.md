@@ -96,7 +96,7 @@ import google.auth.transport.requests
 from tempfile import NamedTemporaryFile
 import json
 ```
-3. Now we must configure our 'flow' object to initialize the Oauth flow:
+3. Now we must configure our 'flow' object (same file as above) to initialize the Oauth flow:
 ```
 # Note: As the flow object requires a file path to load the configuration from AND
 	we want to keep our credentials safe (out of our github repo!!).
@@ -137,6 +137,79 @@ flow = Flow.from_client_secrets_file(
 
 secrets.close() # This method call deletes our temporary file from the /tmp folder! We no longer need it as our flow object has been configured!
 ```
+4. Now we need to setup our endpoints for the flow.
+### We will require 2 endpoints. One to initialize the flow and another for the redirect_uri.
 
+First Endpoint (Initiates the Oauth Flow):
+```
+@app.route("/oauth_login")
+def oauth_login():
+    authorization_url, state = flow.authorization_url()
+    print("AUTH URL: ", authorization_url) # I recommend that you print this value out to see what it's generating.
+    # Ex: https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=NICE TRY&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&state=A0eZyFD4WH6AfqSj7XcdypQ0cMhwr9&access_type=offline
+    # It SHOULD look a lot like the URL in the SECOND or THIRD line of our flow chart!
+    # Note that in the auth url above the value 'access_type' is set to 'offline'. If you do not send this, the user will NOT see the Google Login screen!!
+    # Additionally, note that this URL does NOT contain the 'code_challenge_method' value NOR the 'code_challenge' that can be seen in our flow chart.
+    # This package may have been created BEFORE the official Oauth2 consortium began recommending PKCE even for back channel flows...
+    # While implementation details are completely obscured by the method .authorization_url() let's note 2 things here.
+    # 1) We ARE generating a random value for the 'state' variable. We save it to the session on the line below to compare later.
+    # 2) The authorization URL
+    session["state"] = state
+    return redirect(authorization_url) # This line technically will enact the SECOND and THIRD lines of our flow chart.
+```
 
+Second Endpoint (Our callback as defined in the GCP Console. The Redirect_uri):
+```
+@auth_routes.route("/callback")
+def callback():
+    flow.fetch_token(authorization_response=request.url) # This method is sending the request depicted on line 6 of our flow chart! The response is depicted on line 7 of our flow chart.
+    # I find it odd that the author of this code is verifying the 'state' AFTER requesting a token, but to each their own!!
+
+    # This is our CSRF protection for the Oauth Flow!
+    if not session["state"] == request.args["state"]:
+        abort(500)  # State does not match!
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    # The method call below will go through the tedious work of verifying the JWT signature sent back with the object from OpenID Connect
+    # Although I cannot verify, hopefully it is also testing the values for "sub", "aud", "iat", and "exp" sent back in the CLAIMS section of the JWT
+    # Additionally note, that the oauth initializing URL generated in the previous endpoint DID NOT send a random nonce value. (As depicted in our flow chart)
+    # If it had, the server would return the nonce in the JWT claims to be used for further verification tests!
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+
+    # Now we generate a new session for the newly authenticated user!!
+    # Note that depending on the way your app behaves, you may be creating a new user at this point...
+    session["google_id"] = id_info.get("sub")
+    session["name"] = id_info.get("name")
+    temp_email = id_info.get('email')
+
+    user_exists = User.query.filter(User.email == temp_email).first()
+
+    if not user_exists:
+        user_exists = User(
+            username=session['name'],
+            email=temp_email,
+            password='OAUTH'
+        )
+
+        db.session.add(user_exists)
+        db.session.commit()
+
+    login_user(user_exists)
+
+    # Note that adding this BASE_URL variable to our .env file, makes the transition to production MUCH simpler, as we can just store this variable on Render and change it to our deployed URL.
+    return redirect(f"{BASE_URL}/") # This will send the final redirect to our user's browser. As depicted in Line 8 of the flow chart!
+```
+5. After the endpoints are setup, our final step is to create a link on our frontend that will call the Oauth initiating endpoint! E viola!!
+Example:
+```
+
+```
 
