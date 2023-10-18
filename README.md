@@ -96,7 +96,47 @@ import google.auth.transport.requests
 from tempfile import NamedTemporaryFile
 import json
 ```
+3. Now we must configure our 'flow' object to initialize the Oauth flow:
+```
+# Note: As the flow object requires a file path to load the configuration from AND
+	we want to keep our credentials safe (out of our github repo!!).
+	We will create a temporary file to hold our values as json.
+	Some of these values will come from our .env file.
+	
+# Import our credentials from the .env file
+CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
+CLIENT_ID = os.getenv('GOOGLE_OAUTH_CLIENT_ID')
 
+client_secrets = {
+  "web": {
+    "client_id": CLIENT_ID,
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": CLIENT_SECRET,
+    "redirect_uris": [
+      "http://localhost:5000/callback"
+    ]
+  }
+}
+
+# Here we are generating a temporary file as the google oauth package requires a file for configuration!
+secrets = NamedTemporaryFile()
+# Note that the property '.name' is the file PATH to our temporary file!
+# The command below will write our dictionary to the temp file AS json!
+with open(secrets.name, "w") as output:
+    json.dump(client_secrets, output)
+
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=secrets.name,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://localhost:5000/callback"
+)
+
+secrets.close() # This method call deletes our temporary file from the /tmp folder! We no longer need it as our flow object has been configured!
+```
 
 
 
