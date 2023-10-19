@@ -79,7 +79,7 @@
 ### After creating a project in the Google Cloud Platform Console and generating your credentials, follow these remaining steps:
 1. Add the requisite packages to your requirements.txt. Copy and paste from the Pipfile clip below.
 ```
-# Here are the additional packages that will allow us to implement and Oauth flow
+# Here are the additional packages that will allow us to implement an Oauth flow
 # You can paste the code below to the bottom of your requirements.txt
 
 cachetools==5.3.1; python_version >= '3.7'
