@@ -77,8 +77,27 @@
 
 ## Incorporating Google Oauth into your Flask Application
 ### After creating a project in the Google Cloud Platform Console and generating your credentials, follow these remaining steps:
-1. Replace your current 'requirements.txt' with the one provided in the repo. File name: new_requirements.txt OR simply copy and paste the additional packages listed at the bottom of that file into your current requirements.txt
-2. Choose a file that you will put the necessary Ouath endpoints into. If you are going to use your 'auth_routes.py', this is a completely acceptable decision! Either way, you must ensure that you have the required imports at the top of that file. These imports:
+1. Add the requisite packages to your requirements.txt. Copy and paste from the Pipfile clip below.
+```
+# Here are the additional packages that will allow us to implement and Oauth flow
+# You can paste the code below to the bottom of your requirements.txt
+
+cachetools==5.3.1; python_version >= '3.7'
+certifi==2023.7.22; python_version >= '3.6'
+charset-normalizer==3.2.0; python_version >= '3.7'
+google-auth-oauthlib==1.0.0
+google-auth==2.22.0
+oauthlib==3.2.2; python_version >= '3.6'
+requests-oauthlib==1.3.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+requests==2.31.0; python_version >= '3.7'
+rsa==4.9; python_version >= '3.6' and python_version < '4'
+setuptools==68.0.0; python_version >= '3.7'
+urllib3==1.26.16; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'
+zipp==3.16.2; python_version >= '3.8'
+
+```
+
+3. Choose a file that you will put the necessary Ouath endpoints into. If you are going to use your 'auth_routes.py', this is a completely acceptable decision! Either way, you must ensure that you have the required imports at the top of that file. These imports:
 ```
 import os
 import pathlib
