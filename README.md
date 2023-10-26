@@ -122,6 +122,7 @@ import json
 # Import our credentials from the .env file
 CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
 CLIENT_ID = os.getenv('GOOGLE_OAUTH_CLIENT_ID')
+BASE_URL = os.getenv('BASE_URL')
 
 client_secrets = {
   "web": {
