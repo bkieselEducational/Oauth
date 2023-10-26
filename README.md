@@ -197,7 +197,7 @@ def callback():
     id_info = id_token.verify_oauth2_token(
         id_token=credentials._id_token,
         request=token_request,
-        audience=GOOGLE_CLIENT_ID
+        audience=CLIENT_ID
     )
 
     # Now we generate a new session for the newly authenticated user!!
