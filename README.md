@@ -175,6 +175,21 @@ def oauth_login():
     return redirect(authorization_url) # This line technically will enact the SECOND and THIRD lines of our flow chart.
 ```
 
+BEFORE setting up the second endpoint, we will need to make an adjustment to our password setter method on our User model:
+
+```
+    @password.setter
+    def password(self, password):
+	# New code starts here #################
+	if password == 'OAUTH':
+	  self.hashed_password = 'OAUTH' # If we look at the password_checker() method, we see that it hashes the user input and compares it
+					 ## during login. With this adjustment, even a data breach would NOT expose our Oauth users to
+					 ### having their accounts accessed with our default password for Oauth logins, 'OAUTH', as it would never
+					 #### hash to that value. 
+	# New code ends here ####################
+        self.hashed_password = generate_password_hash(password)
+```
+
 Second Endpoint (Our callback as defined in the GCP Console. The Redirect_uri):
 ```
 @auth_routes.route("/callback")
