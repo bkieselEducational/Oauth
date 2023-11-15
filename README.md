@@ -159,7 +159,7 @@ secrets.close() # This method call deletes our temporary file from the /tmp fold
 
 First Endpoint (Initiates the Oauth Flow):
 ```
-@app.route("/oauth_login")
+@auth_routes.route("/oauth_login")
 def oauth_login():
     authorization_url, state = flow.authorization_url()
     print("AUTH URL: ", authorization_url) # I recommend that you print this value out to see what it's generating.
