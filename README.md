@@ -95,7 +95,7 @@ rsa==4.9
 setuptools==68.0.0
 urllib3==1.26.16
 zipp==3.16.2
-
+psycopg2==2.9.9
 ```
 
 3. Choose a file that you will put the necessary Ouath endpoints into. If you are going to use your 'auth_routes.py', this is a completely acceptable decision! Either way, you must ensure that you have the required imports at the top of that file. These imports:
