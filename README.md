@@ -149,7 +149,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for loca
 flow = Flow.from_client_secrets_file(
     client_secrets_file=secrets.name,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-    redirect_uri="http://localhost:5000/callback"
+    redirect_uri="http://localhost:8000/callback"
 )
 
 secrets.close() # This method call deletes our temporary file from the /tmp folder! We no longer need it as our flow object has been configured!
@@ -185,9 +185,11 @@ BEFORE setting up the second endpoint, we will need to make an adjustment to our
 	  self.hashed_password = 'OAUTH' # If we look at the password_checker() method, we see that it hashes the user input and compares it
 					 ## during login. With this adjustment, even a data breach would NOT expose our Oauth users to
 					 ### having their accounts accessed with our default password for Oauth logins, 'OAUTH', as it would never
-					 #### hash to that value. 
+					 #### hash to that value.
+	  return
 	# New code ends here ####################
-        self.hashed_password = generate_password_hash(password)
+	else:
+          self.hashed_password = generate_password_hash(password)
 ```
 
 Second Endpoint (Our callback as defined in the GCP Console. The Redirect_uri):
