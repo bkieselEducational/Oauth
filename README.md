@@ -182,14 +182,14 @@ BEFORE setting up the second endpoint, we will need to make an adjustment to our
     def password(self, password):
 	# New code starts here #################
 	if password == 'OAUTH':
-	  self.hashed_password = 'OAUTH' # If we look at the password_checker() method, we see that it hashes the user input and compares it
+		self.hashed_password = 'OAUTH' # If we look at the password_checker() method, we see that it hashes the user input and compares it
 					 ## during login. With this adjustment, even a data breach would NOT expose our Oauth users to
 					 ### having their accounts accessed with our default password for Oauth logins, 'OAUTH', as it would never
 					 #### hash to that value.
-	  return
+		return
 	# New code ends here ####################
 	else:
-          self.hashed_password = generate_password_hash(password)
+		self.hashed_password = generate_password_hash(password)
 ```
 
 Second Endpoint (Our callback as defined in the GCP Console. The Redirect_uri):
@@ -239,7 +239,7 @@ def callback():
     # Note that adding this BASE_URL variable to our .env file, makes the transition to production MUCH simpler, as we can just store this variable on Render and change it to our deployed URL.
     return redirect(f"{BASE_URL}/") # This will send the final redirect to our user's browser. As depicted in Line 8 of the flow chart!
 ```
-5. After the endpoints are setup, our final step is to create a link on our frontend that will call the Oauth initiating endpoint! E viola!!
+5. After the endpoints are setup, our final step is to create a link on our frontend that will call the Oauth initiating endpoint! E viola!! Note that in development you can just add the 'http://localhost:PORT_NUMBER' for the BASE_URL value. But in production, you'll want to use the BASE_URL for your deployment!
 Example (Note that you will need to add the Google logo and style the link yourself!):
 ```
   <a href={`${BASE_URL}/api/auth/login_oauth`}><button>OAUTH</button></a>
