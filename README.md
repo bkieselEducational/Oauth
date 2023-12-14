@@ -242,7 +242,7 @@ def callback():
 5. After the endpoints are setup, our final step is to create a link on our frontend that will call the Oauth initiating endpoint! E viola!! Note that in development you can just add the 'http://localhost:PORT_NUMBER' for the BASE_URL value. But in production, you'll want to use the BASE_URL for your deployment!
 Example (Note that you will need to add the Google logo and style the link yourself!):
 ```
-  <a href={`${BASE_URL}/api/auth/login_oauth`}><button>OAUTH</button></a>
+  <a href={`${BASE_URL}/api/auth/oauth_login`}><button>OAUTH</button></a>
 ```
 
 ## Using OAuth in Production:
