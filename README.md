@@ -1,6 +1,6 @@
 # Oauth Walkthrough
 
-# NOTE: This code is meant as an introductory reference ONLY!! (It's a simple demo. Follow the instructions at the bottom of this README to incorporate a Google Oauth flow into your project.)
+# NOTE: Follow the instructions at the bottom of this README to incorporate a Google Oauth flow into your project.
 
 # OAuth2 Authorization Code Flow with PKCE using Google OAuth
 
