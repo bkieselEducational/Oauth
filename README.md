@@ -220,15 +220,13 @@ def callback():
 
     # Now we generate a new session for the newly authenticated user!!
     # Note that depending on the way your app behaves, you may be creating a new user at this point...
-    session["google_id"] = id_info.get("sub")
-    session["name"] = id_info.get("name")
     temp_email = id_info.get('email')
 
     user_exists = User.query.filter(User.email == temp_email).first()
 
     if not user_exists:
         user_exists = User(
-            username=session['name'],
+            username=id_info.get("name"),
             email=temp_email,
             password='OAUTH'
         )
